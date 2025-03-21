@@ -58,12 +58,12 @@ function App() {
     const [temperature, setTemperature] = useState(-273.15);//Un petit easter egg de physicien
     const [temps, setTemps] = useState('');
 
-    const searchInput = useRef(null);//pour obtenir la value de l'input du html
+    const searchInput = useRef<HTMLInputElement>(null);//pour obtenir la value de l'input du html, htmlinputElement permet de définir le type pour pouvoir get le value après
 
     function funcSearchMeteo(){
-        const searchvalue = searchInput.current;
+        const searchvalue = searchInput.current?.value;
         if(searchvalue) {
-            fetch(`https://freetestapi.com/api/v1/weathers?search=${searchvalue.value}`).then((response) => response.json())
+            fetch(`https://freetestapi.com/api/v1/weathers?search=${searchvalue}`).then((response) => response.json())
                 .then((meteojson) => setMeteoData(meteojson[0]))
                 .catch(() => console.error("Pas de connexion internet:"));
         }
