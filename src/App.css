@@ -5,8 +5,33 @@
   text-align: center;
   border: 0;
   border-radius: 0.5rem;
-  width: 10em;
   background-color: #eaf4fb;
+}
+@media (prefers-color-scheme: dark) {
+
+  body {
+    background-color: #1a1a1a;
+  }
+  #root {
+    background-color: #446999;
+  }
+  .meteoApp .meteoFormCity{
+    color: #f6fbff;
+  }
+  .meteoForm .search_button_img {
+    color: white;
+  }
+}
+@media (prefers-color-scheme: light) {
+  .meteoForm .search_button_img {
+    color: black;
+  }
+  .meteoDisplay hr {
+    border-top: 1px solid #d8e4ef;
+  }
+  .meteoDisplay {
+    color: #446999;
+  }
 }
 
 .meteoApp{
@@ -24,23 +49,51 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-color: white;
   margin: 0;
   padding: 0;
 }
 
 .meteoForm .meteoFormCity{
-  height: 2.4em;
+  height: 3.5em;
   margin: 0;
   padding: 0;
   border: 0;
   border-radius: 0.7em;
 }
 .meteoForm .search_button_img{
-  color: black;
-  width: 1.5em;
   height: 1.5em;
 }
+
 .meteoDisplay{
-  color: #446999;
+  display: flex;
+  flex-direction: column;
+}
+.meteoDisplay .meteoDisplayLocation{
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: left;
+}
+.meteoDisplay .meteoDisplaytemp {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.meteoDisplay .meteoDisplaytemp .tempNdesc{
+  display: flex;
+  flex-direction: column;
+}
+.meteoDisplay .thelittleadvice {
+  grid-column: 1;
+  grid-row: 2;
+  justify-self: left;
+}
+
+.meteoDisplay hr{
+  width: 80%;
+  opacity: 80%;
+}
+
+.meteoDisplay .img_temps {
+  font-size: 4em;
 }

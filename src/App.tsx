@@ -41,7 +41,7 @@ const dico_desc: { [key: string]: string } = {
     "Sunny": "🌞"
 };
 
-const dico_advice :{ [key: string]: string } = { //généré par ia mais bon, ce n'est pas une école de com
+const dico_advice :{ [key: string]: string } = { //généré par ia parce que c'est dûr d'etre créatif
     "Clear sky": "Profite du ciel dégagé pour une randonnée ou un pique-nique !",
     "Cloudy": "C'est le moment idéal pour lire un bon livre ou regarder un film.",
     "Partly cloudy": "Parfait pour une balade en vélo ou une séance de yoga en plein air.",
@@ -57,6 +57,7 @@ function App() {
     const [country, setCountry] = useState('');
     const [temperature, setTemperature] = useState(-273.15);//Un petit easter egg de physicien
     const [temps, setTemps] = useState('');
+
 
     const searchInput = useRef<HTMLInputElement>(null);//pour obtenir la value de l'input du html, htmlinputElement permet de définir le type pour pouvoir get le value après
 
@@ -90,15 +91,19 @@ function App() {
     }
     function DisplayMeteo() {
 
-        return <div>
+        return <div className="meteoDisplay">
             <div className="meteoDisplayLocation">
-                <h2>{city}</h2><h3>{country}</h3>
+                <h2 className="city">{city}</h2>·<h3 className="country">{country}</h3>
             </div>
+            <hr/>
             <div className="meteoDisplaytemp">
-                {temperature != -273.15 && <h1>{temperature}°C</h1>}
-                <h2>{temps}</h2>
-                <h1>{dico_desc[temps]}</h1>
+                <div className="tempNdesc">
+                    {temperature != -273.15 && <h1>{temperature}°C</h1>}
+                    <h2 className="temperature">{temps}</h2>
+                </div>
+                <h1 className="img_temps">{dico_desc[temps]}</h1>
             </div>
+            <hr/>
             <p className="thelittleadvice">{dico_advice[temps]}</p>
         </div>
     }
