@@ -1,5 +1,5 @@
 import './App.css'
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 // interface MeteoData {
 //     city: string;
@@ -59,9 +59,27 @@ function App() {
     const [temps, setTemps] = useState('');
     const [loading, setLoading] = useState(false);
     const [errorInternet, setErrorInternet] = useState("");
-
-
     const searchInput = useRef<HTMLInputElement>(null);//pour obtenir la value de l'input du html, htmlinputElement permet de définir le type pour pouvoir get le value après
+
+    useEffect(() => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const {latitude, longitude} = position.coords;
+                    console.log(latitude, longitude);
+                    const response = await fetch(`/geo/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+                    const data = await response.json();
+                    setCity(data.address.city);
+                    setCountry(data.address.countryName);
+                    funcSearchMeteo();
+                },
+                () => {
+                    setErrorInternet("La géolocalisation échoué");
+                }
+            );
+        }
+    }, []);
+
 
     function funcSearchMeteo(){
         const searchvalue = searchInput.current?.value;
