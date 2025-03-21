@@ -41,7 +41,7 @@ const dico_desc: { [key: string]: string } = {
     "Sunny": "🌞"
 };
 
-const dico_advice :{ [key: string]: string } = { //généré par ia parce que c'est dûr d'etre créatif
+const dico_advice :{ [key: string]: string } = { //généré par ia parce que c'est dûr d'etre créatif, et ce ne sont pas des tenues, mais ça rajoute du vivant, youpi !
     "Clear sky": "Profite du ciel dégagé pour une randonnée ou un pique-nique !",
     "Cloudy": "C'est le moment idéal pour lire un bon livre ou regarder un film.",
     "Partly cloudy": "Parfait pour une balade en vélo ou une séance de yoga en plein air.",
@@ -57,6 +57,8 @@ function App() {
     const [country, setCountry] = useState('');
     const [temperature, setTemperature] = useState(-273.15);//Un petit easter egg de physicien
     const [temps, setTemps] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [errorInternet, setErrorInternet] = useState("");
 
 
     const searchInput = useRef<HTMLInputElement>(null);//pour obtenir la value de l'input du html, htmlinputElement permet de définir le type pour pouvoir get le value après
@@ -64,9 +66,13 @@ function App() {
     function funcSearchMeteo(){
         const searchvalue = searchInput.current?.value;
         if(searchvalue) {
-            fetch(`/api/v1/weathers?search=${searchvalue}`).then((response) => response.json())
-                .then((meteojson) => setMeteoData(meteojson[0]))
-                .catch(() => console.error("Pas de connexion internet:"));
+            setLoading(true);
+            setTimeout(() => {
+                fetch(`/api/v1/weathers?search=${searchvalue}`).then((response) => response.json())
+                    .then((meteojson) => setMeteoData(meteojson[0]))
+                    .then(() => setLoading(false))
+                    .catch(() => {setLoading(false);setErrorInternet("Erreur, pas de connexion internet");});
+            }, 2000);//on ajoute un délai pour bien voir
         }
     }
 
@@ -90,7 +96,12 @@ function App() {
         </form>
     }
     function DisplayMeteo() {
-
+        if (loading) {
+            return <div>Veuillez patientez que le nuage arrive...</div>;
+        }
+        if (errorInternet) {
+            return <div>{errorInternet}</div>
+        }
         return <div className="meteoDisplay">
             <div className="meteoDisplayLocation">
                 <h2 className="city">{city}</h2>·<h3 className="country">{country}</h3>
