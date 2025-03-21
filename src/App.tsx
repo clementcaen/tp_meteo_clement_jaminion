@@ -63,7 +63,7 @@ function App() {
     function funcSearchMeteo(){
         const searchvalue = searchInput.current?.value;
         if(searchvalue) {
-            fetch(`https://freetestapi.com/api/v1/weathers?search=${searchvalue}`).then((response) => response.json())
+            fetch(`/api/v1/weathers?search=${searchvalue}`).then((response) => response.json())
                 .then((meteojson) => setMeteoData(meteojson[0]))
                 .catch(() => console.error("Pas de connexion internet:"));
         }
